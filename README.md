@@ -12,4 +12,4 @@ OUTPUT_FILE = Path("extracted_globals.txt")
 
 ## Screenshot
 
-![WindowsTerminal_2024-08-22_18-49](https://github.com/user-attachments/assets/c9dfa60d-97d5-4aa1-aac9-c3da9d740aa9)
+![WindowsTerminal_2024-08-22_19-01](https://github.com/user-attachments/assets/a0970126-f95a-46f0-8773-5fba40d2dd65)
