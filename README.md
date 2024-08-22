@@ -1,6 +1,14 @@
 # extract_all_globals_from_v_decompiled_scripts 
 
- Automatically extracts global variables from decompiled scripts and saves them to a file. 
+Automatically extracts global variables from decompiled scripts and saves them to a file. 
+
+## Usage
+
+Edit the following paths in the source code to match your desired directories:
+```py
+DECOMPILED_SCRIPTS = Path("D:/Downloads/GTA Stuff/PC/.Other Stuff/03 - Codding/01 - Decompiled Scripts/v-decompiled-scripts-master")
+OUTPUT_FILE = Path("extracted_globals.txt")
+```
 
 ## Screenshot
 
