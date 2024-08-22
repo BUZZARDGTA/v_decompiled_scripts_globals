@@ -1,6 +1,15 @@
 # extract_all_globals_from_v_decompiled_scripts 
 
-Automatically extracts global variables from decompiled scripts and saves them to a file. 
+This script automatically extracts global variables from decompiled scripts and saves them to a file.
+
+### Warning
+
+**The script scans exclusively for `Global_x` strings.**<br>
+It will not include additional suffixes or formats in the output, such as:
+- `Global_x.f_x`
+- `Global_x[x /*x*/]`
+
+Only the `Global_x` part will be extracted.
 
 ## Usage
 
