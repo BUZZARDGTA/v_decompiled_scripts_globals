@@ -17,8 +17,6 @@ def get_max_filename_length(directory: Path):
 
 def process_files(directory: Path, output_file: Path, max_filename_length: int):
     global_vars = set()
-    smallest_global = None
-    largest_global = None
 
     with output_file.open('w', encoding='utf-8') as out_file:
         for file_path in directory.rglob('*.c'):
@@ -34,32 +32,38 @@ def process_files(directory: Path, output_file: Path, max_filename_length: int):
             for var in new_globals:
                 global_vars.add(var)
                 out_file.write(f"Global_{var}\n")
-                out_file.flush()  # Ensure it is written to disk immediately
-
-                if smallest_global is None or var < smallest_global:
-                    smallest_global = var
-                if largest_global is None or var > largest_global:
-                    largest_global = var
+                out_file.flush() # Ensure it is written to disk immediately
 
             print(f"{' ' * (max_filename_length - len(file_name))} .. Found {num_new_globals} new globals from this file.")
 
-    return smallest_global, largest_global
+    return global_vars
 
 if __name__ == "__main__":
     start_time = time.time()
 
     max_filename_length = get_max_filename_length(DECOMPILED_SCRIPTS)
-    smallest, largest = process_files(DECOMPILED_SCRIPTS, OUTPUT_FILE, max_filename_length)
+    global_vars = process_files(DECOMPILED_SCRIPTS, OUTPUT_FILE, max_filename_length)
+
+    if global_vars:
+        smallest_global = min(global_vars)
+        largest_global = max(global_vars)
+        total_globals = len(global_vars)
+    else:
+        smallest_global = None
+        largest_global = None
+        total_globals = 0
 
     end_time = time.time()
 
     total_time = end_time - start_time
 
     print()
-    if smallest is None:
-        print("No global variables were found.")
+    if global_vars:
+        print(f"Smallest Global Number: Global_{smallest_global}")
+        print(f"Largest Global Number: Global_{largest_global}")
+        print(f"Total Number of Globals Found: {total_globals}")
     else:
-        print(f"Smallest Global Number: Global_{smallest}")
-        print(f"Largest Global Number: Global_{largest}")
+        print("No global variables were found.")
+
 
     print(f"\nTime taken: {total_time:.2f} seconds")
