@@ -9,7 +9,7 @@ def extract_globals(file_content: str):
     pattern = re.compile(r'\bGlobal_(\d+)\b')
     return [int(match) for match in pattern.findall(file_content)]
 
-def get_max_filename_length(directory: Path) -> int:
+def get_max_filename_length(directory: Path):
     max_length = 0
     for file_path in directory.rglob('*.c'):
         max_length = max(max_length, len(file_path.name))
