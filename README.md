@@ -4,7 +4,7 @@ This script automatically extracts global variables from decompiled scripts and 
 
 ### Warning
 
-**The script scans exclusively for `Global_x` and `Global_x.f_x` strings.**<br>
+**The script scans exclusively for `Global_x` and `Global_x.f_x` vars.**<br>
 The output does not include global arrays or additional suffixes.<br>
 For example, it will not capture formats like `Global_x[x]` or `Global_x[x /*x*/]`.<br>
 Only the base `Global_x` part will be extracted from these.
