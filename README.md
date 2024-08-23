@@ -4,12 +4,12 @@ This script automatically extracts global variables from decompiled scripts and 
 
 ### Warning
 
-**The script scans exclusively for `Global_x` strings.**<br>
+**The script scans exclusively for `Global_x` and `Global_x.f_x` strings.**<br>
 It will not include additional suffixes or formats in the output, such as:
-- `Global_x.f_x`
+- `Global_x[x]`
 - `Global_x[x /*x*/]`
 
-Only the `Global_x` part will be extracted.
+Only the `Global_x` part will be extracted from these.
 
 ## Usage
 
@@ -21,4 +21,4 @@ OUTPUT_FILE = Path("extracted_globals.txt")
 
 ## Screenshot
 
-![WindowsTerminal_2024-08-22_19-01](https://github.com/user-attachments/assets/a0970126-f95a-46f0-8773-5fba40d2dd65)
+![WindowsTerminal_2024-08-23_22-00](https://github.com/user-attachments/assets/091bc98e-1319-484d-bb6f-5c744f1322e8)
