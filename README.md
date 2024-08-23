@@ -1,4 +1,4 @@
-# v_decompiled_scripts_globals
+# V Decompiled Scripts Globals
 
 This script automatically extracts global variables from decompiled scripts and saves them to a file.
 
