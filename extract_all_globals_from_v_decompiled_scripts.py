@@ -2,12 +2,13 @@ import re
 from pathlib import Path
 import time
 
-DECOMPILED_SCRIPTS = Path("D:/Downloads/GTA Stuff/PC/.Other Stuff/03 - Codding/01 - Decompiled Scripts/v-decompiled-scripts-master")
+
+DECOMPILED_SCRIPTS = Path("D:/Git/v-decompiled-scripts")
 OUTPUT_FILE = Path("extracted_globals.txt")
 
-def extract_globals(file_content: str):
-    pattern = re.compile(r'\bGlobal_(\d+)\b')
-    return [int(match) for match in pattern.findall(file_content)]
+RE_GLOBAL_INT_PATTERN = re.compile(r"\bGlobal_(\d+)\b")
+RE_GLOBALS_PATTERN = re.compile(r"\bGlobal_\d+(?:\.f_\d+)*\b")
+
 
 def get_max_filename_length(directory: Path):
     max_length = 0
@@ -16,6 +17,28 @@ def get_max_filename_length(directory: Path):
     return max_length
 
 def process_files(directory: Path, output_file: Path, max_filename_length: int):
+    def extract_globals(file_content: str) -> list[str]:
+        matches = RE_GLOBALS_PATTERN.findall(file_content)
+
+        for match in matches:
+            if not isinstance(match, str):
+                raise TypeError(f"Expected string, got {type(match).__name__}: {match}")
+
+        return matches
+
+    def get_new_globals(globals_in_file: list[str], global_ints: set, global_vars: set):
+        new_global_vars = set(globals_in_file) - global_vars
+        num_new_global_vars = len(new_global_vars)
+        return new_global_vars, num_new_global_vars
+
+    def get_global_int(global_var: str):
+        match = RE_GLOBAL_INT_PATTERN.search(global_var)
+        if match:
+            global_int = int(match.group(1))
+            return global_int
+        return None
+
+    global_ints = set()
     global_vars = set()
 
     with output_file.open('w', encoding='utf-8') as out_file:
@@ -26,31 +49,39 @@ def process_files(directory: Path, output_file: Path, max_filename_length: int):
             content = file_path.read_text(encoding='utf-8')
             globals_in_file = extract_globals(content)
 
-            new_globals = set(globals_in_file) - global_vars
-            num_new_globals = len(new_globals)
+            new_global_vars, num_new_global_vars = get_new_globals(globals_in_file, global_ints, global_vars)
 
-            for var in new_globals:
-                global_vars.add(var)
-                out_file.write(f"Global_{var}\n")
+            num_new_global_ints = 0  # Initialize the counter for new global integers
+            for global_var in new_global_vars:
+                global_vars.add(global_var)
+                out_file.write(f"{global_var}\n")
                 out_file.flush() # Ensure it is written to disk immediately
 
-            print(f"{' ' * (max_filename_length - len(file_name))} .. Found {num_new_globals} new globals from this file.")
+                global_int = get_global_int(global_var)
+                if global_int not in global_ints:
+                    global_ints.add(global_int)
+                    num_new_global_ints += 1  # Increment the counter for new global integers
 
-    return global_vars
+            #print(f"{' ' * (max_filename_length - len(file_name))} .. Found {num_new_global_vars} new Global var(s) and {num_new_global_ints} new Global int(s) from this file.")
+            print(f"{' ' * (max_filename_length - len(file_name))} .. {num_new_global_vars} new Global var(s), {num_new_global_ints} new int(s).")
+
+    return global_ints, global_vars
 
 if __name__ == "__main__":
     start_time = time.time()
 
     max_filename_length = get_max_filename_length(DECOMPILED_SCRIPTS)
-    global_vars = process_files(DECOMPILED_SCRIPTS, OUTPUT_FILE, max_filename_length)
+    global_ints, global_vars = process_files(DECOMPILED_SCRIPTS, OUTPUT_FILE, max_filename_length)
 
-    if global_vars:
-        smallest_global = min(global_vars)
-        largest_global = max(global_vars)
+    if global_ints:
+        smallest_global_int = min(global_ints)
+        largest_global_int = max(global_ints)
+        total_globals_int = len(global_ints)
         total_globals = len(global_vars)
     else:
-        smallest_global = None
-        largest_global = None
+        smallest_global_int = None
+        largest_global_int = None
+        total_globals_int = 0
         total_globals = 0
 
     end_time = time.time()
@@ -58,12 +89,13 @@ if __name__ == "__main__":
     total_time = end_time - start_time
 
     print()
-    if global_vars:
-        print(f"Smallest Global Number: Global_{smallest_global}")
-        print(f"Largest Global Number: Global_{largest_global}")
-        print(f"Total Number of Globals Found: {total_globals}")
+    if global_ints:
+        print(f"Smallest Global Int: Global_{smallest_global_int}")
+        print(f"Largest  Global Int: Global_{largest_global_int}")
+        print(f"Total Number of Globals Int Found : {total_globals_int}")
+        print(f"Total Number of Globals Vars Found: {total_globals}")
     else:
-        print("No global variables were found.")
+        print("No Global variables were found.")
 
 
     print(f"\nTime taken: {total_time:.2f} seconds")
