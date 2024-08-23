@@ -17,6 +17,10 @@ DECOMPILED_SCRIPTS = Path("D:/Downloads/GTA Stuff/PC/.Other Stuff/03 - Codding/0
 OUTPUT_FILE = Path("extracted_globals.txt")
 ```
 
-## Screenshot
+## Screenshots
 
+### <div align="center">Script's Output:</div>
 ![WindowsTerminal_2024-08-23_22-00](https://github.com/user-attachments/assets/091bc98e-1319-484d-bb6f-5c744f1322e8)
+
+### <div align="center">Extracted Globals File:</div>
+![Notepad_2024-08-23_22-18](https://github.com/user-attachments/assets/37d13a13-6556-4d8c-9f1a-f301899a3a12)
