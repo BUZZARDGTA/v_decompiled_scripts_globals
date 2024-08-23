@@ -9,7 +9,6 @@ The output does not include global arrays or additional suffixes.<br>
 For example, it will not capture formats like `Global_x[x]` or `Global_x[x /*x*/]`.<br>
 Only the base `Global_x` part will be extracted from these.
 
-
 ## Usage
 
 Edit the following paths in the source code to match your desired directories:
