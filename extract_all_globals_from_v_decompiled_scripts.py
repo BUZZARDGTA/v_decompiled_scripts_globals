@@ -92,7 +92,7 @@ if __name__ == "__main__":
     if global_ints:
         print(f"Smallest Global Int: Global_{smallest_global_int}")
         print(f"Largest  Global Int: Global_{largest_global_int}")
-        print(f"Total Number of Globals Int Found : {total_globals_int}")
+        print(f"Total Number of Globals Int  Found: {total_globals_int}")
         print(f"Total Number of Globals Vars Found: {total_globals}")
     else:
         print("No Global variables were found.")
