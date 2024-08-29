@@ -51,7 +51,7 @@ def process_files(directory: Path, output_file: Path, max_filename_length: int):
 
             new_global_vars, num_new_global_vars = get_new_globals(globals_in_file, global_ints, global_vars)
 
-            num_new_global_ints = 0  # Initialize the counter for new global integers
+            num_new_global_ints = 0
             for global_var in new_global_vars:
                 global_vars.add(global_var)
                 out_file.write(f"{global_var}\n")
@@ -60,9 +60,8 @@ def process_files(directory: Path, output_file: Path, max_filename_length: int):
                 global_int = get_global_int(global_var)
                 if global_int not in global_ints:
                     global_ints.add(global_int)
-                    num_new_global_ints += 1  # Increment the counter for new global integers
+                    num_new_global_ints += 1
 
-            #print(f"{' ' * (max_filename_length - len(file_name))} .. Found {num_new_global_vars} new Global var(s) and {num_new_global_ints} new Global int(s) from this file.")
             print(f"{' ' * (max_filename_length - len(file_name))} .. {num_new_global_vars} new Global var(s), {num_new_global_ints} new int(s).")
 
     return global_ints, global_vars
